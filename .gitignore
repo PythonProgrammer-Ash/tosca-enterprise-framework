@@ -1,0 +1,56 @@
+# Tosca workspace files
+*.tws
+*.tsu
+*.tcl
+*.suo
+*.user
+*.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+tosca-env/
+*.egg-info/
+dist/
+build/
+
+# Test results
+results/
+test-output/
+*.xml
+!sample-artifacts/*.xml
+
+# Sensitive data
+secrets/
+credentials/
+*.key
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Node modules (if using any JS tools)
+node_modules/
+package-lock.json
+
+# Reports (except samples)
+execution-reports/*.pdf
+!execution-reports/sample-*.pdf

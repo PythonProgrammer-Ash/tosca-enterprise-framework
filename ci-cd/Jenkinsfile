@@ -1,0 +1,337 @@
+// Jenkinsfile for Tosca Test Automation
+// Enterprise Banking Application - CI/CD Pipeline
+
+pipeline {
+    agent any
+    
+    parameters {
+        choice(
+            name: 'TEST_SUITE',
+            choices: ['Smoke', 'Regression', 'API_Validation', 'FullSuite', 'Custom'],
+            description: 'Select the test suite to execute'
+        )
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['QA', 'Staging', 'PreProd'],
+            description: 'Target environment for test execution'
+        )
+        string(
+            name: 'EXECUTION_LIST',
+            defaultValue: 'Banking_Regression_Suite',
+            description: 'Tosca Execution List name (if Custom suite selected)'
+        )
+        booleanParam(
+            name: 'PARALLEL_EXECUTION',
+            defaultValue: true,
+            description: 'Enable parallel execution across DEX agents'
+        )
+        choice(
+            name: 'BROWSER',
+            choices: ['Chrome', 'Firefox', 'Edge', 'Safari', 'All'],
+            description: 'Browser for UI test execution'
+        )
+    }
+    
+    environment {
+        TOSCA_WORKSPACE = "C:\\Tosca_Workspaces\\Banking_App.tws"
+        TOSCA_CLIENT = "C:\\Program Files (x86)\\TRICENTIS\\Tosca Testsuite\\ToscaCI\\Client\\ToscaCI.exe"
+        RESULTS_DIR = "${WORKSPACE}\\results\\${BUILD_NUMBER}"
+        QTEST_API_URL = "https://your-company.qtestnet.com/api/v3"
+        JIRA_URL = "https://your-company.atlassian.net"
+        SLACK_WEBHOOK = credentials('slack-webhook-url')
+    }
+    
+    stages {
+        stage('Pre-Execution Setup') {
+            steps {
+                script {
+                    echo "========================================="
+                    echo "  Tosca Test Execution Pipeline"
+                    echo "========================================="
+                    echo "Build Number: ${BUILD_NUMBER}"
+                    echo "Test Suite: ${params.TEST_SUITE}"
+                    echo "Environment: ${params.ENVIRONMENT}"
+                    echo "Browser: ${params.BROWSER}"
+                    echo "Parallel Execution: ${params.PARALLEL_EXECUTION}"
+                    echo "========================================="
+                    
+                    // Clean previous results
+                    bat """
+                        if exist "${RESULTS_DIR}" rmdir /S /Q "${RESULTS_DIR}"
+                        mkdir "${RESULTS_DIR}"
+                    """
+                }
+            }
+        }
+        
+        stage('Environment Health Check') {
+            steps {
+                script {
+                    echo "Checking environment availability..."
+                    
+                    // Check application availability
+                    bat """
+                        powershell -Command "
+                            \$url = 'https://${params.ENVIRONMENT}.banking-app.com/health'
+                            try {
+                                \$response = Invoke-WebRequest -Uri \$url -UseBasicParsing
+                                if (\$response.StatusCode -eq 200) {
+                                    Write-Host 'Environment is healthy'
+                                } else {
+                                    Write-Host 'Environment health check failed'
+                                    exit 1
+                                }
+                            } catch {
+                                Write-Host 'Unable to reach environment'
+                                exit 1
+                            }
+                        "
+                    """
+                    
+                    // Check DEX agents availability
+                    if (params.PARALLEL_EXECUTION) {
+                        echo "Verifying DEX agents are online..."
+                        bat """
+                            powershell -File "${WORKSPACE}\\ci-cd\\scripts\\check-dex-agents.ps1"
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Execute Tosca Tests') {
+            steps {
+                script {
+                    def executionList = params.TEST_SUITE == 'Custom' ? params.EXECUTION_LIST : "Banking_${params.TEST_SUITE}_Suite"
+                    
+                    echo "Executing Test Suite: ${executionList}"
+                    
+                    def toscaCommand = """
+                        "${TOSCA_CLIENT}" ^
+                        -workspace "${TOSCA_WORKSPACE}" ^
+                        -executionlist "${executionList}" ^
+                        -results "${RESULTS_DIR}" ^
+                        -environment "${params.ENVIRONMENT}" ^
+                        -exportresults true ^
+                        -resultformat XML ^
+                    """
+                    
+                    if (params.PARALLEL_EXECUTION) {
+                        toscaCommand += """
+                            -distributedexecution true ^
+                            -dexagents "DEX_Agent_1,DEX_Agent_2,DEX_Agent_3" ^
+                        """
+                    }
+                    
+                    if (params.BROWSER != 'All') {
+                        toscaCommand += """
+                            -browser "${params.BROWSER}" ^
+                        """
+                    }
+                    
+                    bat toscaCommand
+                }
+            }
+        }
+        
+        stage('Parse & Analyze Results') {
+            steps {
+                script {
+                    echo "Parsing Tosca execution results..."
+                    
+                    bat """
+                        python "${WORKSPACE}\\ci-cd\\scripts\\parse-results.py" ^
+                            --results-dir "${RESULTS_DIR}" ^
+                            --output-format json ^
+                            --output-file "${RESULTS_DIR}\\summary.json"
+                    """
+                    
+                    // Read results summary
+                    def summary = readJSON file: "${RESULTS_DIR}\\summary.json"
+                    
+                    echo "========================================="
+                    echo "  EXECUTION SUMMARY"
+                    echo "========================================="
+                    echo "Total Tests: ${summary.total}"
+                    echo "Passed: ${summary.passed} (${summary.passRate}%)"
+                    echo "Failed: ${summary.failed}"
+                    echo "Skipped: ${summary.skipped}"
+                    echo "Duration: ${summary.duration}"
+                    echo "========================================="
+                    
+                    env.PASS_RATE = summary.passRate
+                    env.TOTAL_TESTS = summary.total
+                    env.FAILED_TESTS = summary.failed
+                }
+            }
+        }
+        
+        stage('Generate Reports') {
+            steps {
+                script {
+                    echo "Generating HTML dashboard..."
+                    
+                    bat """
+                        python "${WORKSPACE}\\integration-scripts\\custom-report-generator.py" ^
+                            --results-json "${RESULTS_DIR}\\summary.json" ^
+                            --output "${RESULTS_DIR}\\dashboard.html" ^
+                            --template "${WORKSPACE}\\integration-scripts\\custom-report-generator.html"
+                    """
+                    
+                    // Archive results
+                    archiveArtifacts artifacts: "results/${BUILD_NUMBER}/**/*", fingerprint: true
+                    
+                    // Publish HTML report
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: "${RESULTS_DIR}",
+                        reportFiles: 'dashboard.html',
+                        reportName: 'Tosca Execution Dashboard',
+                        reportTitles: 'Test Results'
+                    ])
+                }
+            }
+        }
+        
+        stage('Quality Gates') {
+            steps {
+                script {
+                    echo "Evaluating quality gates..."
+                    
+                    def passRate = env.PASS_RATE as Double
+                    def failedTests = env.FAILED_TESTS as Integer
+                    
+                    // Quality Gate 1: Pass rate must be >= 95%
+                    if (passRate < 95.0) {
+                        echo "❌ Quality Gate FAILED: Pass rate ${passRate}% is below threshold (95%)"
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                    
+                    // Quality Gate 2: No critical test failures
+                    def criticalFailures = sh(
+                        script: "python ${WORKSPACE}/ci-cd/scripts/check-critical-failures.py --results ${RESULTS_DIR}/summary.json",
+                        returnStdout: true
+                    ).trim()
+                    
+                    if (criticalFailures.toInteger() > 0) {
+                        echo "❌ Quality Gate FAILED: ${criticalFailures} critical test(s) failed"
+                        currentBuild.result = 'FAILURE'
+                    }
+                    
+                    if (currentBuild.result != 'FAILURE' && currentBuild.result != 'UNSTABLE') {
+                        echo "✅ All Quality Gates PASSED"
+                    }
+                }
+            }
+        }
+        
+        stage('Publish to qTest') {
+            when {
+                expression { currentBuild.result != 'FAILURE' }
+            }
+            steps {
+                script {
+                    echo "Publishing results to qTest..."
+                    
+                    withCredentials([string(credentialsId: 'qtest-api-token', variable: 'QTEST_TOKEN')]) {
+                        bat """
+                            python "${WORKSPACE}\\integration-scripts\\qtest-integration.py" ^
+                                --results "${RESULTS_DIR}\\summary.json" ^
+                                --api-url "${QTEST_API_URL}" ^
+                                --token "${QTEST_TOKEN}" ^
+                                --project-id "12345" ^
+                                --test-cycle "Banking_Regression_${BUILD_NUMBER}"
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Update JIRA') {
+            when {
+                expression { env.FAILED_TESTS.toInteger() > 0 }
+            }
+            steps {
+                script {
+                    echo "Creating JIRA tickets for failed tests..."
+                    
+                    withCredentials([usernamePassword(credentialsId: 'jira-credentials', 
+                                                     usernameVariable: 'JIRA_USER', 
+                                                     passwordVariable: 'JIRA_PASS')]) {
+                        bat """
+                            python "${WORKSPACE}\\integration-scripts\\jira-xray-integration.py" ^
+                                --results "${RESULTS_DIR}\\summary.json" ^
+                                --jira-url "${JIRA_URL}" ^
+                                --username "${JIRA_USER}" ^
+                                --password "${JIRA_PASS}" ^
+                                --project "BANK" ^
+                                --build-number "${BUILD_NUMBER}"
+                        """
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            script {
+                // Send Slack notification
+                def color = currentBuild.result == 'SUCCESS' ? 'good' : 
+                           currentBuild.result == 'UNSTABLE' ? 'warning' : 'danger'
+                
+                def message = """
+                    *Tosca Test Execution ${currentBuild.result}*
+                    
+                    *Build*: #${BUILD_NUMBER}
+                    *Suite*: ${params.TEST_SUITE}
+                    *Environment*: ${params.ENVIRONMENT}
+                    
+                    *Results*:
+                    • Total: ${env.TOTAL_TESTS}
+                    • Pass Rate: ${env.PASS_RATE}%
+                    • Failed: ${env.FAILED_TESTS}
+                    
+                    *Duration*: ${currentBuild.durationString}
+                    
+                    <${BUILD_URL}Tosca_Execution_Dashboard|View Dashboard>
+                """.stripIndent()
+                
+                bat """
+                    curl -X POST ${SLACK_WEBHOOK} ^
+                    -H "Content-Type: application/json" ^
+                    -d "{\\"text\\": \\"${message}\\"}"
+                """
+            }
+        }
+        success {
+            echo '✅ Pipeline completed successfully'
+        }
+        unstable {
+            echo '⚠️ Pipeline completed with warnings (Quality Gates not met)'
+        }
+        failure {
+            echo '❌ Pipeline failed'
+            emailext(
+                subject: "❌ Tosca Test Execution Failed - Build #${BUILD_NUMBER}",
+                body: """
+                    <h2>Test Execution Failed</h2>
+                    <p><b>Build Number:</b> ${BUILD_NUMBER}</p>
+                    <p><b>Test Suite:</b> ${params.TEST_SUITE}</p>
+                    <p><b>Environment:</b> ${params.ENVIRONMENT}</p>
+                    <p><b>Failed Tests:</b> ${env.FAILED_TESTS}</p>
+                    <p><b>Pass Rate:</b> ${env.PASS_RATE}%</p>
+                    <p><a href="${BUILD_URL}">View Build Details</a></p>
+                """,
+                to: 'qa-team@company.com',
+                mimeType: 'text/html'
+            )
+        }
+        cleanup {
+            // Clean workspace if needed
+            cleanWs(deleteDirs: true, patterns: [[pattern: 'results/**', type: 'INCLUDE']])
+        }
+    }
+}

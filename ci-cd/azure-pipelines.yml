@@ -1,0 +1,317 @@
+# Azure DevOps Pipeline for Tosca Test Automation
+# Enterprise Banking Application
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    exclude:
+      - README.md
+      - docs/**
+
+pr:
+  branches:
+    include:
+      - main
+
+schedules:
+  - cron: "0 2 * * *"  # Daily at 2 AM
+    displayName: Nightly Regression
+    branches:
+      include:
+        - main
+    always: true
+
+parameters:
+  - name: testSuite
+    displayName: Test Suite
+    type: string
+    default: Regression
+    values:
+      - Smoke
+      - Regression
+      - API_Validation
+      - FullSuite
+
+  - name: environment
+    displayName: Target Environment
+    type: string
+    default: QA
+    values:
+      - QA
+      - Staging
+      - PreProd
+
+  - name: parallelExecution
+    displayName: Enable Parallel Execution
+    type: boolean
+    default: true
+
+variables:
+  - name: toscaWorkspace
+    value: 'C:\Tosca_Workspaces\Banking_App.tws'
+  - name: toscaClient
+    value: 'C:\Program Files (x86)\TRICENTIS\Tosca Testsuite\ToscaCI\Client\ToscaCI.exe'
+  - name: resultsDir
+    value: '$(Build.ArtifactStagingDirectory)\results'
+  - group: qTest-Credentials
+  - group: JIRA-Credentials
+
+stages:
+  - stage: PreExecution
+    displayName: 'Pre-Execution Checks'
+    jobs:
+      - job: EnvironmentValidation
+        displayName: 'Validate Environment'
+        pool:
+          name: 'Tosca-Agents'
+        steps:
+          - task: PowerShell@2
+            displayName: 'Check Application Health'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $url = "https://${{ parameters.environment }}.banking-app.com/health"
+                try {
+                    $response = Invoke-WebRequest -Uri $url -UseBasicParsing
+                    if ($response.StatusCode -eq 200) {
+                        Write-Host "✅ Environment is healthy"
+                    } else {
+                        Write-Error "❌ Environment health check failed"
+                        exit 1
+                    }
+                } catch {
+                    Write-Error "❌ Unable to reach environment: $_"
+                    exit 1
+                }
+
+          - task: PowerShell@2
+            displayName: 'Verify DEX Agents'
+            condition: eq('${{ parameters.parallelExecution }}', 'true')
+            inputs:
+              filePath: '$(Build.SourcesDirectory)/ci-cd/scripts/check-dex-agents.ps1'
+
+  - stage: TestExecution
+    displayName: 'Execute Tests'
+    dependsOn: PreExecution
+    jobs:
+      - job: RunToscaTests
+        displayName: 'Run Tosca Test Suite'
+        pool:
+          name: 'Tosca-Agents'
+        timeoutInMinutes: 480  # 8 hours max
+        steps:
+          - checkout: self
+            clean: true
+
+          - task: PowerShell@2
+            displayName: 'Execute Tosca Tests'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $executionList = "Banking_${{ parameters.testSuite }}_Suite"
+                
+                Write-Host "========================================="
+                Write-Host "  Tosca Test Execution"
+                Write-Host "========================================="
+                Write-Host "Suite: $executionList"
+                Write-Host "Environment: ${{ parameters.environment }}"
+                Write-Host "Parallel: ${{ parameters.parallelExecution }}"
+                Write-Host "========================================="
+                
+                $toscaCmd = @"
+                & "$(toscaClient)" `
+                  -workspace "$(toscaWorkspace)" `
+                  -executionlist "$executionList" `
+                  -results "$(resultsDir)" `
+                  -environment "${{ parameters.environment }}" `
+                  -exportresults true `
+                  -resultformat XML
+"@
+                
+                if ("${{ parameters.parallelExecution }}" -eq "true") {
+                    $toscaCmd += " -distributedexecution true -dexagents 'DEX_Agent_1,DEX_Agent_2,DEX_Agent_3'"
+                }
+                
+                Invoke-Expression $toscaCmd
+                
+                if ($LASTEXITCODE -ne 0) {
+                    Write-Error "Tosca execution failed with exit code $LASTEXITCODE"
+                    exit $LASTEXITCODE
+                }
+
+          - task: PythonScript@0
+            displayName: 'Parse Test Results'
+            inputs:
+              scriptSource: 'filePath'
+              scriptPath: '$(Build.SourcesDirectory)/ci-cd/scripts/parse-results.py'
+              arguments: >
+                --results-dir "$(resultsDir)"
+                --output-format json
+                --output-file "$(resultsDir)/summary.json"
+
+          - task: PythonScript@0
+            displayName: 'Generate HTML Report'
+            inputs:
+              scriptSource: 'filePath'
+              scriptPath: '$(Build.SourcesDirectory)/integration-scripts/custom-report-generator.py'
+              arguments: >
+                --results-json "$(resultsDir)/summary.json"
+                --output "$(resultsDir)/dashboard.html"
+                --template "$(Build.SourcesDirectory)/integration-scripts/custom-report-generator.html"
+
+          - task: PublishTestResults@2
+            displayName: 'Publish Test Results'
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '$(resultsDir)/**/*.xml'
+              mergeTestResults: true
+              failTaskOnFailedTests: false
+              testRunTitle: 'Tosca - ${{ parameters.testSuite }} - ${{ parameters.environment }}'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Execution Artifacts'
+            inputs:
+              PathtoPublish: '$(resultsDir)'
+              ArtifactName: 'ToscaResults'
+              publishLocation: 'Container'
+
+  - stage: QualityGates
+    displayName: 'Quality Gates'
+    dependsOn: TestExecution
+    jobs:
+      - job: EvaluateQuality
+        displayName: 'Evaluate Quality Metrics'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - download: current
+            artifact: ToscaResults
+
+          - task: PythonScript@0
+            displayName: 'Check Pass Rate'
+            inputs:
+              scriptSource: 'inline'
+              script: |
+                import json
+                import sys
+                
+                with open('$(Pipeline.Workspace)/ToscaResults/summary.json', 'r') as f:
+                    summary = json.load(f)
+                
+                pass_rate = summary['passRate']
+                failed_tests = summary['failed']
+                
+                print(f"Pass Rate: {pass_rate}%")
+                print(f"Failed Tests: {failed_tests}")
+                
+                if pass_rate < 95:
+                    print(f"❌ Quality Gate FAILED: Pass rate {pass_rate}% below 95%")
+                    sys.exit(1)
+                
+                print("✅ Quality Gate PASSED")
+
+          - task: PythonScript@0
+            displayName: 'Check Critical Failures'
+            inputs:
+              scriptSource: 'filePath'
+              scriptPath: '$(Build.SourcesDirectory)/ci-cd/scripts/check-critical-failures.py'
+              arguments: '--results $(Pipeline.Workspace)/ToscaResults/summary.json'
+
+  - stage: Integration
+    displayName: 'Test Management Integration'
+    dependsOn: TestExecution
+    condition: succeeded()
+    jobs:
+      - job: PublishToQTest
+        displayName: 'Publish to qTest'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - download: current
+            artifact: ToscaResults
+
+          - task: PythonScript@0
+            displayName: 'Upload Results to qTest'
+            env:
+              QTEST_TOKEN: $(qtest-api-token)
+            inputs:
+              scriptSource: 'filePath'
+              scriptPath: '$(Build.SourcesDirectory)/integration-scripts/qtest-integration.py'
+              arguments: >
+                --results "$(Pipeline.Workspace)/ToscaResults/summary.json"
+                --api-url "$(qtest-api-url)"
+                --token "$(QTEST_TOKEN)"
+                --project-id "12345"
+                --test-cycle "Banking_${{ parameters.testSuite }}_$(Build.BuildId)"
+
+      - job: UpdateJIRA
+        displayName: 'Update JIRA/Xray'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - download: current
+            artifact: ToscaResults
+
+          - task: PythonScript@0
+            displayName: 'Create JIRA Defects'
+            env:
+              JIRA_USER: $(jira-username)
+              JIRA_PASS: $(jira-password)
+            inputs:
+              scriptSource: 'filePath'
+              scriptPath: '$(Build.SourcesDirectory)/integration-scripts/jira-xray-integration.py'
+              arguments: >
+                --results "$(Pipeline.Workspace)/ToscaResults/summary.json"
+                --jira-url "$(jira-url)"
+                --username "$(JIRA_USER)"
+                --password "$(JIRA_PASS)"
+                --project "BANK"
+                --build-number "$(Build.BuildId)"
+
+      - job: SendNotifications
+        displayName: 'Send Notifications'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - download: current
+            artifact: ToscaResults
+
+          - task: PowerShell@2
+            displayName: 'Send Slack Notification'
+            inputs:
+              targetType: 'inline'
+              script: |
+                $summary = Get-Content "$(Pipeline.Workspace)/ToscaResults/summary.json" | ConvertFrom-Json
+                
+                $message = @{
+                    text = "🚀 *Tosca Test Execution Complete*`n" +
+                           "*Build*: #$(Build.BuildId)`n" +
+                           "*Suite*: ${{ parameters.testSuite }}`n" +
+                           "*Environment*: ${{ parameters.environment }}`n`n" +
+                           "*Results*:`n" +
+                           "• Total: $($summary.total)`n" +
+                           "• Pass Rate: $($summary.passRate)%`n" +
+                           "• Failed: $($summary.failed)`n`n" +
+                           "<$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)|View Results>"
+                } | ConvertTo-Json
+                
+                Invoke-RestMethod -Uri "$(slack-webhook-url)" -Method Post -Body $message -ContentType 'application/json'
+
+          - task: SendEmail@1
+            displayName: 'Send Email Report'
+            condition: failed()
+            inputs:
+              To: 'qa-team@company.com'
+              From: 'azure-pipelines@company.com'
+              Subject: '❌ Tosca Tests Failed - Build $(Build.BuildId)'
+              Body: |
+                Test execution failed for build $(Build.BuildId)
+                
+                Suite: ${{ parameters.testSuite }}
+                Environment: ${{ parameters.environment }}
+                
+                View results: $(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+              BodyAsHtml: true
