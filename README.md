@@ -1,6 +1,7 @@
 <div align="center">
 
 # 🚀 Enterprise Tosca Test Automation Framework
+> 📌 **Tech Stack:** This framework leverages Tricentis Tosca for codeless test automation, Python for integration scripting, and Groovy for CI/CD pipeline orchestration.
 
 ### Intelligent Model-Based Testing Architecture with CI/CD Integration
 
