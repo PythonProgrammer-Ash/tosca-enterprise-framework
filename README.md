@@ -1,41 +1,94 @@
-🚀 Enterprise Tosca Test Automation Framework
-Intelligent Model-Based Testing Architecture with CI/CD Integration
-Show Image
-Show Image
-Show Image
-Show Image
+<div align="center">
 
-📋 Table of Contents
+# 🚀 Enterprise Tosca Test Automation Framework
 
-Project Overview
-Architecture Design
-Framework Components
-CI/CD Pipeline
-Test Management Integration
-Reporting & Analytics
-Technical Implementation
-Performance Metrics
-Portfolio Artifacts
-Best Practices & Standards
-Connect
+### Intelligent Model-Based Testing Architecture with CI/CD Integration
 
+[![Tosca Version](https://img.shields.io/badge/Tosca-16.0-blue.svg)](https://www.tricentis.com/products/automate-continuous-testing-tosca)
+[![Framework](https://img.shields.io/badge/Framework-Model--Based-green.svg)](https://github.com)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-Jenkins%20%7C%20Azure%20DevOps-orange.svg)](https://github.com)
+[![Test Management](https://img.shields.io/badge/Integration-qTest%20%7C%20JIRA%20%7C%20Xray-purple.svg)](https://github.com)
 
-📌 Project Overview
-This repository showcases an enterprise-grade automation framework architected using Tricentis Tosca, demonstrating advanced test automation capabilities beyond basic scripting. As Tosca is a proprietary model-based tool, this documentation serves as comprehensive evidence of architectural thinking, scalability design, and engineering excellence.
-🎯 Business Context
+<img src="https://img.shields.io/badge/Coverage-85%25-brightgreen?style=for-the-badge" alt="Coverage">
+<img src="https://img.shields.io/badge/Execution%20Time-70%25%20Faster-success?style=for-the-badge" alt="Performance">
+<img src="https://img.shields.io/badge/ROI-%24430K-gold?style=for-the-badge" alt="ROI">
 
-System Under Test: Multi-tier Enterprise Banking Application (Web + API + Mobile)
-Scope: 250+ automated business scenarios across 8 critical user journeys
-Objective: Achieve 85% automation coverage while reducing regression cycle time from 5 days to 8 hours
-Team Impact: Enabled shift-left testing, reducing production defects by 42%
+</div>
 
-🏆 Key Achievements
+---
+
+## 📋 Table of Contents
+
+<details>
+<summary>Click to expand</summary>
+
+- [📌 Project Overview](#-project-overview)
+- [🏗️ Architecture Design](#️-architecture-design)
+- [🧩 Framework Components](#-framework-components)
+- [🔄 CI/CD Pipeline Integration](#-cicd-pipeline-integration)
+- [🔗 Test Management Integration](#-test-management-integration)
+- [📊 Reporting & Analytics](#-reporting--analytics)
+- [💻 Technical Implementation](#-technical-implementation)
+- [📈 Performance Metrics](#-performance-metrics)
+- [📂 Portfolio Artifacts](#-portfolio-artifacts)
+- [🛠️ Best Practices & Standards](#️-best-practices--standards)
+- [🎓 Key Learnings](#-key-learnings--innovations)
+- [📞 Connect With Me](#-connect-with-me)
+
+</details>
+
+---
+
+## 📌 Project Overview
+
+> This repository showcases an **enterprise-grade automation framework** architected using **Tricentis Tosca**, demonstrating advanced test automation capabilities beyond basic scripting. As Tosca is a proprietary model-based tool, this documentation serves as comprehensive evidence of architectural thinking, scalability design, and engineering excellence.
+
+### 🎯 Business Context
+
+<table>
+<tr>
+<td width="50%">
+
+**System Under Test**
+
+- Multi-tier Enterprise Banking Application
+- Web + API + Mobile layers
+- Mission-critical financial transactions
+
+</td>
+<td width="50%">
+
+**Automation Scope**
+
+- 250+ automated business scenarios
+- 8 critical user journeys
+- End-to-end workflow validation
+
+</td>
+</tr>
+</table>
+
+### 🏆 Key Achievements
+
+```
 ✓ 250+ Automated Test Cases        ✓ 85% Test Coverage
-✓ 70% Reduction in Execution Time  ✓ 42% Fewer Production Defects  
+✓ 70% Reduction in Execution Time  ✓ 42% Fewer Production Defects
 ✓ 60% Maintenance Effort Reduction ✓ Zero-Touch CI/CD Execution
+```
 
-🏗️ Architecture Design
-High-Level Architecture Diagram
+<div align="center">
+
+### 💰 Business Impact: **$430,000** Annual ROI
+
+</div>
+
+---
+
+## 🏗️ Architecture Design
+
+### High-Level Architecture Diagram
+
+```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    CI/CD ORCHESTRATION LAYER                     │
 │            Jenkins | Azure DevOps | GitLab CI                    │
@@ -74,72 +127,82 @@ High-Level Architecture Diagram
     │ • Screenshots│              │ • Dashboards      │
     └──────────────┘              │ • Metrics/KPIs    │
                                   └───────────────────┘
-🎨 Framework Design Principles
-1. Modularity & Reusability
+```
 
-Component-based architecture following Tosca Best Practices (TBP)
-Slim workspace design with < 20% redundancy
-Shared TestStepBlock library reducing maintenance by 60%
+### 🎨 Framework Design Principles
 
-2. Scalability
+<table>
+<tr>
+<th>Principle</th>
+<th>Implementation</th>
+<th>Benefit</th>
+</tr>
+<tr>
+<td><b>Modularity</b></td>
+<td>Component-based architecture following Tosca Best Practices</td>
+<td>Slim workspace with < 20% redundancy</td>
+</tr>
+<tr>
+<td><b>Reusability</b></td>
+<td>Shared TestStepBlock library</td>
+<td>60% reduction in maintenance effort</td>
+</tr>
+<tr>
+<td><b>Scalability</b></td>
+<td>Parallel execution via DEX across 5 agents</td>
+<td>Supports 500+ concurrent test cases</td>
+</tr>
+<tr>
+<td><b>Maintainability</b></td>
+<td>Centralized Module repository with version control</td>
+<td>Self-healing capabilities through adaptive steering</td>
+</tr>
+</table>
 
-Parallel execution via Tosca DEX across 5 execution agents
-Horizontal scaling supporting 500+ concurrent test cases
-Cloud-ready architecture (Azure/AWS compatible)
+---
 
-3. Maintainability
+## 🧩 Framework Components
 
-Centralized Module repository with version control
-Dynamic XPath strategies with fallback mechanisms
-Self-healing capabilities through adaptive steering
+### 1️⃣ Module Layer (The Model)
 
+<details>
+<summary><b>Click to expand XScan Strategy details</b></summary>
 
-🧩 Framework Components
-1️⃣ Module Layer (The Model)
-XScan Strategy
-Application Layer → XScan Configuration → Module Structure
-     │                     │                      │
-     │                     │                      ├── Login_Module
-     │                     │                      ├── Navigation_Module  
-     │                     │                      ├── Transaction_Module
-     │                     │                      └── Reporting_Module
-     │                     │
-     │                     └── Steering Parameters:
-     │                           • Primary: ID/Name
-     │                           • Fallback: CSS Selector
-     │                           • Dynamic: XPath with anchors
-     │
-     └── Recovery Scenarios:
-           • Timeout handlers
-           • Popup management
-           • Session recovery
-Key Implementation Highlights:
+<br>
 
-Dynamic ID Handling: Implemented regex-based dynamic ID recognition for React/Angular SPAs
-Shadow DOM Support: Custom steering for Web Component penetration
-Multi-Browser Compatibility: Modules validated across Chrome, Firefox, Edge, Safari
-Mobile Responsive: Conditional steering based on viewport detection
+**Steering Priority Configuration:**
 
-Module Personalization Examples
-📦 Login_Module
-  ├── 📄 Controls
-  │   ├── txt_Username [ID: username | CSS: input[name='user'] | XPath: //input[@type='email']]
-  │   ├── txt_Password [ID: password | CSS: input[type='password']]
-  │   └── btn_Login [XPath: //button[contains(text(),'Sign In')]]
-  │
-  ├── 🔧 Business Actions
-  │   └── Perform_SecureLogin
-  │       ├── Input Username → {BP[Username]}
-  │       ├── Input Password → {BP[Password]}  
-  │       ├── Click Login
-  │       └── Verify Dashboard Loaded
-  │
-  └── 🛡️ Recovery Scenarios
-      ├── Handle_SessionTimeout
-      ├── Handle_CaptchaChallenge
-      └── Handle_MFA_Verification
-2️⃣ Test Logic Layer (The Intelligence)
-Reusable TestStepBlocks (RTB) Library
+```yaml
+Priority 1: ID (Most Stable)
+  └─ Example: id="username"
+
+Priority 2: Name (Static Elements)
+  └─ Example: name="user-email"
+
+Priority 3: CSS Selector (Modern SPAs)
+  └─ Example: input[type='email']
+
+Priority 4: XPath with Anchors (Last Resort)
+  └─ Example: //input[@type='email' and @placeholder='Email']
+```
+
+**Key Implementation Highlights:**
+
+- ✅ Dynamic ID Handling for React/Angular SPAs
+- ✅ Shadow DOM Support for Web Components
+- ✅ Multi-Browser Compatibility (Chrome, Firefox, Edge, Safari)
+- ✅ Mobile Responsive Conditional Steering
+
+</details>
+
+### 2️⃣ Test Logic Layer (The Intelligence)
+
+<details>
+<summary><b>Click to expand Reusable TestStepBlocks (RTB) Library</b></summary>
+
+<br>
+
+```
 📚 RTB_Library/
 ├── 🔐 Authentication/
 │   ├── RTB_Login_Standard
@@ -168,63 +231,39 @@ Reusable TestStepBlocks (RTB) Library
     ├── RTB_WaitForElementReady
     ├── RTB_DatabaseValidation
     └── RTB_APICall_Wrapper
-Advanced Logic Implementation
-Conditional Logic Example:
+```
+
+**Advanced Logic Example:**
+
+```
 TestCase: Process_Loan_Application
-├── IF {BP[CustomerType]} == "Premium"
+
+IF {BP[CustomerType]} == "Premium"
 │   ├── THEN: RTB_FastTrack_Approval
 │   └── ELSE: RTB_Standard_Approval
 │
-├── WHILE {Buffer[ApplicationStatus]} != "Approved" AND {Counter} < 10
+WHILE {Buffer[ApplicationStatus]} != "Approved" AND {Counter} < 10
 │   ├── Wait 30 seconds
 │   ├── RTB_CheckApplicationStatus
 │   └── Increment Counter
 │
-└── IF {Buffer[ApplicationStatus]} == "Approved"
+IF {Buffer[ApplicationStatus]} == "Approved"
     ├── RTB_Generate_LoanDocument
     └── RTB_Send_EmailNotification
-Error Handling & Recovery:
-Recovery Scenario Architecture:
-┌─────────────────────────────────────┐
-│  Try: Execute Primary TestStep     │
-└──────────────┬──────────────────────┘
-               │
-         [Success?]
-          /        \
-        Yes         No
-         │           │
-    Continue    ┌────▼──────────────────┐
-                │ Catch: Log Error      │
-                │ Execute RecoveryBlock │
-                │ Take Screenshot       │
-                │ Update Buffer[Status] │
-                └───────────────────────┘
-3️⃣ Test Data Management (The Fuel)
-Multi-Source Data Strategy
-┌─────────────────────────────────────────────────┐
-│            DATA ABSTRACTION LAYER                │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│  ┌──────────────┐  ┌──────────────┐            │
-│  │ TCD Sheets   │  │ Excel Files  │            │
-│  │ (Internal)   │  │ (External)   │            │
-│  └──────┬───────┘  └──────┬───────┘            │
-│         │                 │                     │
-│         └────────┬────────┘                     │
-│                  │                              │
-│         ┌────────▼────────┐                     │
-│         │  Data Mapping   │                     │
-│         │  & Buffering    │                     │
-│         └────────┬────────┘                     │
-│                  │                              │
-│    ┌─────────────┼─────────────┐               │
-│    │             │             │               │
-│ ┌──▼───┐  ┌──────▼──────┐  ┌──▼────┐          │
-│ │ API  │  │  Database   │  │ UI    │          │
-│ │ Layer│  │  Validation │  │ Layer │          │
-│ └──────┘  └─────────────┘  └───────┘          │
-└─────────────────────────────────────────────────┘
-TBox Buffer Usage Examples:
+```
+
+</details>
+
+### 3️⃣ Test Data Management (The Fuel)
+
+<details>
+<summary><b>Click to expand Multi-Source Data Strategy</b></summary>
+
+<br>
+
+**TBox Buffer Usage Example:**
+
+```
 Scenario: End-to-End Order Processing
 
 Step 1: Create Order
@@ -246,24 +285,24 @@ Step 4: API Validation
 
 Step 5: Generate Invoice
   ├── Input: {Buffer[OrderID]}
-  └── Output: Download PDF → validate content contains {Buffer[TransactionID]}
-Template Instances for Combinatorial Testing:
-TestCase Design (TCD): Loan_Application_Scenarios
+  └── Download PDF → validate {Buffer[TransactionID]} in content
+```
 
-Parameters:
-├── LoanType: [Personal, Home, Auto, Business]
-├── CreditScore: [Poor, Fair, Good, Excellent]
-├── IncomeLevel: [Low, Medium, High]
-└── ExistingCustomer: [Yes, No]
+</details>
 
-Orthogonal Array Generation:
-→ 16 combinatorial test cases
-→ 100% pairwise coverage
-→ Executed via TCD Template Instances
+---
 
-🔄 CI/CD Pipeline Integration
-Jenkins Pipeline Architecture
-yaml┌─────────────────────────────────────────────────────────────┐
+## 🔄 CI/CD Pipeline Integration
+
+### Jenkins Pipeline Architecture
+
+<details>
+<summary><b>Click to expand complete pipeline flow</b></summary>
+
+<br>
+
+```yaml
+┌─────────────────────────────────────────────────────────────┐
 │                  JENKINS CI/CD PIPELINE                      │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
@@ -278,12 +317,8 @@ yaml┌────────────────────────�
 │                                                              │
 │  Stage 3: TEST EXECUTION                                    │
 │  ├── Trigger: ToscaCI.exe via CLI                          │
-│  ├── Parameters:                                            │
-│  │   • Workspace: ${WORKSPACE_PATH}                        │
-│  │   • ExecutionList: ${TEST_SUITE}                        │
-│  │   • ResultsPath: ${JENKINS_HOME}/results               │
-│  │   • Agents: DEX_Agent_1, DEX_Agent_2, DEX_Agent_3      │
-│  └── Parallel Execution across 3 agents                    │
+│  ├── Parallel Execution across 3 agents                    │
+│  └── Real-time status monitoring                           │
 │                                                              │
 │  Stage 4: RESULT COLLECTION                                 │
 │  ├── Parse: Tosca XML Results                              │
@@ -300,63 +335,44 @@ yaml┌────────────────────────�
 │  ├── Update JIRA Tickets (Xray Integration)                │
 │  ├── Send Notifications (Email, Slack, Teams)              │
 │  └── Update Dashboards (Grafana, Power BI)                 │
-│                                                              │
 └─────────────────────────────────────────────────────────────┘
-Sample Jenkinsfile
-groovypipeline {
-    agent any
-    
-    parameters {
-        choice(name: 'TEST_SUITE', choices: ['Smoke', 'Regression', 'FullSuite'], description: 'Select Test Suite')
-        choice(name: 'ENVIRONMENT', choices: ['QA', 'Staging', 'PreProd'], description: 'Target Environment')
-    }
-    
-    stages {
-        stage('Setup') {
-            steps {
-                echo "Provisioning Tosca Environment..."
-                // Start DEX Agents, prepare workspace
-            }
-        }
-        
-        stage('Execute Tests') {
-            steps {
-                bat """
-                    ToscaCI.exe 
-                    -workspace "C:\\Tosca_Workspaces\\Banking_App.tws"
-                    -executionlist "${params.TEST_SUITE}"
-                    -results "${WORKSPACE}\\results"
-                    -environment "${params.ENVIRONMENT}"
-                """
-            }
-        }
-        
-        stage('Publish Results') {
-            steps {
-                script {
-                    // Parse results and push to qTest
-                    publishResultsToQTest()
-                    updateJiraTestCycles()
-                }
-            }
-        }
-    }
-    
-    post {
-        always {
-            archiveArtifacts artifacts: 'results/**/*', fingerprint: true
-            publishHTML([reportDir: 'results/html', reportFiles: 'index.html'])
-        }
-        failure {
-            emailext subject: "Test Execution Failed: ${env.JOB_NAME}",
-                     body: "Build ${env.BUILD_NUMBER} failed. Check console output.",
-                     to: "qa-team@company.com"
-        }
-    }
-}
+```
 
-🔗 Test Management Integration
-qTest Integration Architecture
+**Key Pipeline Features:**
+
+- ✅ Automated trigger on Git push
+- ✅ Parallel execution across multiple agents
+- ✅ Quality gates enforcement
+- ✅ Automatic rollback on failure
+- ✅ Multi-channel notifications
+
+</details>
+
+### Supported CI/CD Platforms
+
+<div align="center">
+
+| Platform           | Status          | Configuration File          |
+| ------------------ | --------------- | --------------------------- |
+| **Jenkins**        | ✅ Full Support | `ci-cd/Jenkinsfile`         |
+| **Azure DevOps**   | ✅ Full Support | `ci-cd/azure-pipelines.yml` |
+| **GitLab CI**      | ✅ Full Support | `ci-cd/gitlab-ci.yml`       |
+| **GitHub Actions** | 🚧 In Progress  | `ci-cd/github-actions.yml`  |
+
+</div>
+
+---
+
+## 🔗 Test Management Integration
+
+### qTest Integration
+
+<details>
+<summary><b>Click to expand qTest integration flow</b></summary>
+
+<br>
+
+```
 ┌────────────────────────────────────────────────┐
 │         Tosca Execution Results                │
 │              (XML Format)                      │
@@ -364,9 +380,9 @@ qTest Integration Architecture
                 │
       ┌─────────▼──────────┐
       │  Custom Parser     │
-      │  (Python/C#)       │
+      │  (Python Script)   │
       │                    │
-      │  Extract:          │
+      │  Extracts:         │
       │  • Test Case ID    │
       │  • Status          │
       │  • Duration        │
@@ -379,29 +395,35 @@ qTest Integration Architecture
       ┌─────────▼──────────────────────────┐
       │      qTest Manager                 │
       │                                    │
-      │  POST /api/v3/projects/{id}/       │
-      │       test-runs                    │
-      │                                    │
-      │  Payload:                          │
-      │  {                                 │
-      │    "test_case_id": "TC-1234",     │
-      │    "status": "PASSED",            │
-      │    "execution_time": "45s",       │
-      │    "attachments": [screenshots]   │
-      │  }                                 │
+      │  ✓ Auto-create test cycles         │
+      │  ✓ Update test run status          │
+      │  ✓ Upload screenshots              │
+      │  ✓ Link to requirements            │
+      │  ✓ Generate traceability matrix    │
       └────────────────────────────────────┘
-Integration Features:
+```
 
-✅ Bi-directional sync (Tosca ↔ qTest)
-✅ Automated test cycle creation
-✅ Real-time status updates
-✅ Attachment upload (screenshots, logs)
-✅ Defect auto-creation on failure
-✅ Traceability matrix maintenance
+**Integration Features:**
 
-JIRA/Xray Integration
-Workflow: Test Execution → Defect Management
+- ✅ Bi-directional synchronization
+- ✅ Automated test cycle creation
+- ✅ Real-time status updates
+- ✅ Screenshot attachment on failure
+- ✅ Defect auto-creation
+- ✅ Traceability matrix maintenance
 
+</details>
+
+### JIRA/Xray Integration
+
+<details>
+<summary><b>Click to expand JIRA workflow</b></summary>
+
+<br>
+
+**Automated Defect Management Workflow:**
+
+```
 1. Test Fails in Tosca
    ├── Capture: Screenshot, Error Log, Stack Trace
    └── Extract: Test Case Metadata
@@ -410,7 +432,7 @@ Workflow: Test Execution → Defect Management
    ├── Project: Banking_App
    ├── Issue Type: Bug
    ├── Summary: "Failed: {TestCaseName}"
-   ├── Description: Error details + steps to reproduce
+   ├── Description: Error details + reproduction steps
    ├── Attachments: Screenshots
    ├── Labels: [Automation, Regression, P1]
    └── Link to Test Case in Xray
@@ -421,10 +443,23 @@ Workflow: Test Execution → Defect Management
    └── Linked Defect: BUG-456
 
 4. Notification to Team
-   └── Slack/Email: "@QA_Team New defect BUG-456 requires triage"
+   └── Slack: "@QA_Team New defect BUG-456 requires triage"
+```
 
-📊 Reporting & Analytics
-Custom HTML Dashboard
+</details>
+
+---
+
+## 📊 Reporting & Analytics
+
+### Custom HTML Dashboard
+
+<details>
+<summary><b>Click to view dashboard preview</b></summary>
+
+<br>
+
+```
 ┌─────────────────────────────────────────────────────────────┐
 │              TOSCA EXECUTION DASHBOARD                       │
 │                  Banking Application - Regression Suite      │
@@ -450,156 +485,107 @@ Custom HTML Dashboard
 │  │  2. Transaction_Approval_Delay  ❌ 3 failures        │  │
 │  │  3. Report_Generation_Error     ❌ 2 failures        │  │
 │  └──────────────────────────────────────────────────────┘  │
-│                                                              │
-│  📅 HISTORICAL TRENDS (30 Days)                             │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │   100%│     ●───●───●───●───●───●                   │  │
-│  │    95%│   ●─┘                   └─●───●             │  │
-│  │    90%│  ●                                           │  │
-│  │       └──────────────────────────────────────────►  │  │
-│  │        Week1 Week2 Week3 Week4                       │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                              │
-│  🔗 QUICK LINKS                                             │
-│  • View Detailed Results  • Download PDF Report            │
-│  • Open in qTest         • Create JIRA Ticket              │
 └─────────────────────────────────────────────────────────────┘
-Grafana Integration (Real-Time Metrics)
-Metrics Collected:
-├── Test Execution Metrics
-│   ├── Tests Per Hour
-│   ├── Pass/Fail Rate (%)
-│   └── Average Execution Time
-│
-├── System Performance
-│   ├── DEX Agent CPU/Memory Usage
-│   ├── Application Response Time
-│   └── Database Query Performance
-│
-├── Quality Metrics
-│   ├── Defect Detection Rate
-│   ├── Automation Coverage (%)
-│   └── Flaky Test Identification
-│
-└── Business Metrics
-    ├── Critical Path Coverage
-    ├── Risk-Based Test Distribution
-    └── ROI Calculation (Time Saved)
+```
 
-💻 Technical Implementation
-API Testing Integration
-Hybrid Testing Approach: UI + API Validation
+</details>
 
-Example: Banking Transaction Flow
-┌─────────────────────────────────────────────────┐
-│ Step 1: UI - Login & Navigate to Transfer      │
-└──────────────────┬──────────────────────────────┘
-                   │
-┌──────────────────▼──────────────────────────────┐
-│ Step 2: UI - Fill Transfer Form                │
-│         Amount: $500                            │
-│         From: Savings                           │
-│         To: Checking                            │
-└──────────────────┬──────────────────────────────┘
-                   │
-┌──────────────────▼──────────────────────────────┐
-│ Step 3: API - Validate Account Balance (Before)│
-│         GET /api/accounts/savings               │
-│         Assert: balance >= 500                  │
-└──────────────────┬──────────────────────────────┘
-                   │
-┌──────────────────▼──────────────────────────────┐
-│ Step 4: UI - Click Submit Transfer             │
-│         Capture: Transaction ID from UI         │
-│         TBox Set → {Buffer[TxnID]}             │
-└──────────────────┬──────────────────────────────┘
-                   │
-┌──────────────────▼──────────────────────────────┐
-│ Step 5: API - Verify Transaction Processed     │
-│         GET /api/transactions/{Buffer[TxnID]}   │
-│         Assert: status == "COMPLETED"           │
-└──────────────────┬──────────────────────────────┘
-                   │
-┌──────────────────▼──────────────────────────────┐
-│ Step 6: API - Validate Account Balance (After) │
-│         GET /api/accounts/savings               │
-│         Assert: balance_new == balance_old - 500│
-└─────────────────────────────────────────────────┘
-Tosca API Testing Modules:
-📦 API_Framework/
-├── 🌐 HTTP_Request_Templates
-│   ├── GET_Request_Template
-│   ├── POST_Request_Template
-│   ├── PUT_Request_Template
-│   └── DELETE_Request_Template
-│
-├── 🔐 Authentication_Handlers
-│   ├── OAuth2_TokenGeneration
-│   ├── API_Key_Injection
-│   └── JWT_Token_Validation
-│
-├── ✅ Response_Validators
-│   ├── JSON_Schema_Validation
-│   ├── Status_Code_Assertion
-│   ├── Response_Time_Check
-│   └── Header_Validation
-│
-└── 🗄️ Database_Comparison
-    ├── DB_Query_Execution
-    └── API_vs_DB_DataMatch
-Database Testing
-Scenario: Data Integrity Validation
+### Grafana Integration
 
-TestCase: Verify_Customer_Data_Sync
-├── Step 1: Create Customer via UI
-│   ├── Fill Form: Name, Email, DOB, Address
-│   └── Capture: Customer ID → {Buffer[CustID]}
-│
-├── Step 2: Database Validation
-│   ├── Execute SQL:
-│   │   SELECT * FROM customers 
-│   │   WHERE customer_id = '{Buffer[CustID]}'
-│   │
-│   └── Assert:
-│       ├── name == {TCD[CustomerName]}
-│       ├── email == {TCD[CustomerEmail]}
-│       └── status == 'ACTIVE'
-│
-└── Step 3: API Cross-Validation
-    └── GET /api/customers/{Buffer[CustID]}
-        └── Compare: API Response == DB Result
+Real-time metrics dashboard tracking:
 
-📈 Performance Metrics
-Before vs After Framework Implementation
-┌─────────────────────────────────────────────────────────┐
-│                 TRANSFORMATION METRICS                   │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│  Regression Cycle Time:                                 │
-│  Before: ████████████████████ 5 days (manual)          │
-│  After:  ███ 8 hours (automated) → 85% reduction       │
-│                                                          │
-│  Test Coverage:                                          │
-│  Before: ████████ 40% (manual capacity limit)          │
-│  After:  █████████████████ 85% → +45% increase        │
-│                                                          │
-│  Defect Detection (Production):                         │
-│  Before: ████████████ 12 defects/release               │
-│  After:  ███████ 7 defects/release → 42% reduction    │
-│                                                          │
-│  Maintenance Effort (hours/week):                       │
-│  Before: ████████████████ 20 hours                     │
-│  After:  ████████ 8 hours → 60% reduction              │
-│                                                          │
-│  ROI (Annual):                                           │
-│  Cost Savings: $180,000 (FTE time reclaimed)           │
-│  Quality Improvement: $250,000 (production defect ↓)   │
-│  Total Value: $430,000                                  │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
-Execution Performance
-Parallel Execution Efficiency:
+- Test execution metrics (tests/hour, pass/fail rate)
+- System performance (CPU/Memory usage, response times)
+- Quality metrics (defect detection rate, coverage %)
+- Business metrics (ROI calculation, time saved)
 
+---
+
+## 💻 Technical Implementation
+
+### API Testing Integration
+
+<details>
+<summary><b>Click to expand hybrid testing approach</b></summary>
+
+<br>
+
+**Example: Banking Transaction Flow (UI + API + DB Validation)**
+
+```
+Step 1: UI - Login & Navigate to Transfer
+
+Step 2: UI - Fill Transfer Form
+         Amount: $500
+         From: Savings → To: Checking
+
+Step 3: API - Validate Account Balance (Before)
+         GET /api/accounts/savings
+         Assert: balance >= 500
+
+Step 4: UI - Click Submit Transfer
+         Capture: Transaction ID from UI
+         TBox Set → {Buffer[TxnID]}
+
+Step 5: API - Verify Transaction Processed
+         GET /api/transactions/{Buffer[TxnID]}
+         Assert: status == "COMPLETED"
+
+Step 6: Database - Validate Balance Updated
+         SQL: SELECT balance FROM accounts WHERE id = 'savings'
+         Assert: balance_new == balance_old - 500
+```
+
+</details>
+
+### Multi-Browser & Cross-Platform Support
+
+<table>
+<tr>
+<th>Desktop Browsers</th>
+<th>Mobile Platforms</th>
+</tr>
+<tr>
+<td>
+
+- ✅ Chrome (Latest, Latest-1)
+- ✅ Firefox (Latest, ESR)
+- ✅ Edge (Chromium)
+- ✅ Safari (macOS)
+
+</td>
+<td>
+
+- ✅ iOS Safari
+- ✅ Android Chrome
+- ✅ Responsive Design Testing
+- ✅ Touch Gesture Simulation
+
+</td>
+</tr>
+</table>
+
+---
+
+## 📈 Performance Metrics
+
+### Before vs After Framework Implementation
+
+<div align="center">
+
+| Metric                    | Before      | After      | Improvement |
+| ------------------------- | ----------- | ---------- | ----------- |
+| **Regression Cycle Time** | 5 days      | 8 hours    | ⬇️ 85%      |
+| **Test Coverage**         | 40%         | 85%        | ⬆️ 45%      |
+| **Production Defects**    | 12/release  | 7/release  | ⬇️ 42%      |
+| **Maintenance Effort**    | 20 hrs/week | 8 hrs/week | ⬇️ 60%      |
+| **Annual Cost Savings**   | —           | $430,000   | 💰 ROI      |
+
+</div>
+
+### Parallel Execution Efficiency
+
+```
 Single Agent (Sequential):
 ├── Total Tests: 250
 ├── Avg Time/Test: 3 minutes
@@ -608,13 +594,19 @@ Single Agent (Sequential):
 Multi-Agent (Parallel - 5 Agents):
 ├── Distribution: 50 tests/agent
 ├── Avg Time/Test: 3 minutes
-└── Total Duration: 2.5 hours → 80% faster
+└── Total Duration: 2.5 hours → 80% faster ⚡
+```
 
-📂 Portfolio Artifacts
-Repository Structure
+---
+
+## 📂 Portfolio Artifacts
+
+### Repository Structure
+
+```
 📁 Tosca-Enterprise-Framework/
 │
-├── 📄 README.md (This file)
+├── 📄 README.md (This comprehensive guide)
 │
 ├── 📁 architecture/
 │   ├── high-level-architecture.png
@@ -623,9 +615,9 @@ Repository Structure
 │   └── data-flow-diagram.png
 │
 ├── 📁 execution-reports/
-│   ├── regression-suite-results-2026-01-15.pdf
-│   ├── smoke-test-results-2026-01-18.pdf
-│   └── api-validation-results-2026-01-10.pdf
+│   ├── regression-suite-results.pdf
+│   ├── smoke-test-results.pdf
+│   └── api-validation-results.pdf
 │
 ├── 📁 screenshots/
 │   ├── 01-workspace-structure.png
@@ -640,13 +632,11 @@ Repository Structure
 │   ├── framework-setup-guide.md
 │   ├── naming-conventions.md
 │   ├── best-practices.md
-│   ├── troubleshooting-guide.md
-│   └── api-integration-specs.md
+│   └── troubleshooting-guide.md
 │
 ├── 📁 ci-cd/
 │   ├── Jenkinsfile
 │   ├── azure-pipelines.yml
-│   ├── gitlab-ci.yml
 │   └── scripts/
 │       ├── execute-tosca-tests.ps1
 │       ├── parse-results.py
@@ -655,229 +645,154 @@ Repository Structure
 ├── 📁 integration-scripts/
 │   ├── qtest-integration.py
 │   ├── jira-xray-integration.py
-│   ├── custom-report-generator.html
-│   └── slack-notification.sh
+│   └── custom-report-generator.py
 │
-├── 📁 sample-artifacts/
-│   ├── sample-execution-log.xml
-│   ├── sample-test-data.xlsx
-│   └── module-export-example.md
-│
-└── 📄 LICENSE
+└── 📁 sample-artifacts/
+    ├── sample-execution-log.xml
+    ├── sample-test-data.xlsx
+    └── module-export-example.md
+```
 
 ---
 
 ## 🛠️ Best Practices & Standards
 
 ### Naming Conventions
+
+```
 Modules:          {Application}_{Function}_Module
-Example: Banking_Login_Module
+                  Example: Banking_Login_Module
+
 TestCases:        {Process}_{Scenario}_TC
-Example: AccountCreation_ValidData_TC
+                  Example: AccountCreation_ValidData_TC
+
 TestStepBlocks:   RTB_{Action}_{Object}
-Example: RTB_Validate_TransactionStatus
-Buffers:          {Context}_{DataType}
-Example: OrderID, TransactionAmount
+                  Example: RTB_Validate_TransactionStatus
+
+Buffers:          {Context}{DataType}
+                  Example: OrderID, TransactionAmount
+```
 
 ### Code Quality Standards
+
 - ✅ Module coverage: 100% of UI elements scanned
 - ✅ RTB reusability: Minimum 70% reuse across test cases
-- ✅ Dynamic waits: No hardcoded `Sleep` commands
+- ✅ Dynamic waits: No hardcoded Sleep commands
 - ✅ Error handling: Recovery scenarios for all critical paths
 - ✅ Documentation: Comments on all complex logic blocks
-
-### Version Control Strategy
-Workspace Structure:
-├── MAIN (Production-ready tests)
-├── DEV (Active development)
-└── FEATURE_BRANCHES (Experimental work)
-Commit Strategy:
-
-Daily: Module updates, minor fixes
-Weekly: New TestCase completions
-Bi-weekly: Major refactoring, framework updates
-
 
 ---
 
 ## 🎓 Key Learnings & Innovations
 
 ### 1. Self-Healing Test Strategy
-Implemented a **3-tier steering fallback mechanism**:
+
+<details>
+<summary><b>3-Tier Steering Fallback Mechanism</b></summary>
+
+<br>
+
+```
 Level 1: ID-based identification (fastest, most stable)
-↓ [If fails]
+    ↓ [If fails]
 Level 2: CSS Selector with data attributes
-↓ [If fails]
+    ↓ [If fails]
 Level 3: XPath with text anchors + visual recognition
-**Result**: 90% reduction in steering-related failures
+```
+
+**Result:** 90% reduction in steering-related failures
+
+</details>
 
 ### 2. Smart Synchronization
-Instead of `Sleep(5000)`, implemented:
+
+Instead of `Sleep(5000)`, implemented intelligent waiting:
+
+```
 RTB_WaitForElement_Intelligent:
 ├── Max Wait: 30 seconds
 ├── Poll Interval: 500ms
-├── Success Condition: Element.IsVisible AND Element.IsEnabled
+├── Success Condition: Element.IsVisible AND Element.Enabled
 └── Fail-Fast: Throw exception if element not found
-**Result**: 40% faster execution, zero false negatives
+```
+
+**Result:** 40% faster execution, zero false negatives
 
 ### 3. Data-Driven Excellence
-Created **Template Instance Generator** that:
+
+Created Template Instance Generator that:
+
 - Reads business requirements from Excel
 - Generates combinatorial test data using orthogonal arrays
 - Auto-creates TCD instances in Tosca
 - Achieves 100% pairwise coverage with minimal test cases
 
-**Result**: 200 scenarios reduced to 45 optimized test cases
-
----
-
-## 🔍 Advanced Capabilities Demonstrated
-
-### Multi-Browser Testing
-Configuration Matrix:
-├── Chrome (Latest, Latest-1)
-├── Firefox (Latest, ESR)
-├── Edge (Chromium)
-└── Safari (macOS/iOS)
-Execution Strategy:
-
-Parallel execution across browsers
-Browser-specific steering adjustments
-Screenshot comparison for visual regression
-
-
-### Cross-Platform Support
-Desktop:
-├── Windows 10/11
-├── macOS Monterey+
-└── Linux (Ubuntu 20.04+)
-Mobile:
-├── iOS (Safari)
-└── Android (Chrome)
-Implementation:
-
-Responsive design handling
-Touch gesture simulation
-Mobile-specific element detection
-
-
-### Performance Testing Integration
-Hybrid Approach: Functional + Performance
-TestCase: Login_Under_Load
-├── Step 1: Start Performance Monitor
-├── Step 2: Execute Login (Tosca)
-├── Step 3: Measure Response Time
-├── Step 4: Assert: Response < 2 seconds
-└── Step 5: Log to Performance Database
-Metrics Tracked:
-
-Page Load Time
-API Response Time
-Database Query Duration
-Memory Consumption
-
-
----
-
-## 📚 Resources & References
-
-### Tosca Best Practices Applied
-- ✅ TBP Module Architecture (Slim Workspace Design)
-- ✅ TBP Test Case Design (Reusability-First Approach)
-- ✅ TBP Data Management (Central Repository Pattern)
-- ✅ TBP Execution Optimization (DEX Configuration)
-
-### Tools & Technologies
-Core:
-├── Tricentis Tosca 16.0
-├── Tosca DEX (Distributed Execution)
-└── ToscaCI (Continuous Integration Module)
-CI/CD:
-├── Jenkins 2.400+
-├── Azure DevOps Pipelines
-└── GitLab CI/CD
-Test Management:
-├── qTest Manager
-├── JIRA + Xray
-└── Azure Test Plans
-Reporting:
-├── Custom HTML/CSS/JavaScript
-├── Grafana + Prometheus
-└── Power BI Dashboards
-Languages:
-├── Python 3.9+ (Integration Scripts)
-├── PowerShell 7+ (Automation Scripts)
-└── C# (.NET 6) (Custom Extensions)
-
----
-
-## 🎯 Use Cases Covered
-
-### Banking Domain
-- ✅ Account Management (Create, Update, Close)
-- ✅ Transaction Processing (Transfer, Payment, Withdrawal)
-- ✅ Loan Applications (Personal, Home, Auto, Business)
-- ✅ Credit Card Management (Apply, Activate, Statement)
-- ✅ Reporting & Analytics (Statements, Tax Documents)
-
-### Test Types
-- ✅ **Smoke Tests**: 25 critical path scenarios (15 min execution)
-- ✅ **Regression Suite**: 250 comprehensive tests (8 hours execution)
-- ✅ **API Validation**: 75 backend service tests (1 hour execution)
-- ✅ **Database Integrity**: 25 data consistency checks (30 min execution)
-- ✅ **End-to-End Workflows**: 15 full user journeys (3 hours execution)
+**Result:** 200 scenarios reduced to 45 optimized test cases
 
 ---
 
 ## 🚀 Future Roadmap
 
+<details>
+<summary><b>Click to view planned enhancements</b></summary>
+
+<br>
+
 ### Q1 2026
+
 - [ ] AI-Powered Test Generation using GPT-4
 - [ ] Visual Regression Testing with Percy/Applitools
 - [ ] Expand API coverage to 100+ endpoints
 
 ### Q2 2026
+
 - [ ] Mobile Native App Testing (iOS/Android)
 - [ ] Accessibility Testing (WCAG 2.1 AA compliance)
 - [ ] Performance Testing Integration with JMeter
 
 ### Q3 2026
+
 - [ ] Cloud Migration (AWS/Azure execution agents)
 - [ ] Machine Learning for Test Case Prioritization
 - [ ] Self-Healing Test Maintenance Automation
+
+</details>
 
 ---
 
 ## 📞 Connect With Me
 
-I'm passionate about **Test Architecture**, **Quality Engineering**, and **DevOps Transformation**. 
+<div align="center">
+
+### I'm passionate about **Test Architecture**, **Quality Engineering**, and **DevOps Transformation**
 
 Let's connect and discuss:
-- Tosca framework architecture and optimization
-- Test automation strategy and implementation
-- CI/CD pipeline integration for QA
-- Quality engineering best practices
-- Team mentoring and upskilling
 
-### Find Me On:
-- 💼 **LinkedIn**: [Your LinkedIn Profile]
-- 🐙 **GitHub**: [Your GitHub Profile]
-- 📧 **Email**: [Your Professional Email]
-- 🌐 **Portfolio**: [Your Website]
-- 📝 **Blog**: [Your Technical Blog]
+- 🏗️ Tosca framework architecture and optimization
+- 📋 Test automation strategy and implementation
+- 🔄 CI/CD pipeline integration for QA
+- ✅ Quality engineering best practices
+- 👥 Team mentoring and upskilling
+
+<br>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ashish-n-6080661b5/)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/PythonProgrammer-Ash)
+[![Email](https://img.shields.io/badge/Email-Contact-red?style=for-the-badge&logo=gmail)](mailto:ashishnayak.1109@gmail.com)
 
 ### Open to:
-- 🎤 Speaking engagements on Test Automation
-- 👥 Consulting opportunities
-- 📚 Knowledge sharing sessions
-- 🤝 Collaborative projects
+
+🎤 Speaking engagements | 👥 Consulting opportunities | 📚 Knowledge sharing | 🤝 Collaborative projects
+
+</div>
 
 ---
 
 ## ⭐ Support This Project
 
 If you find this framework architecture helpful:
-- ⭐ **Star this repository**
+
+- ⭐ **Star this repository** to show your support
 - 🍴 **Fork and adapt** for your own projects
 - 💬 **Share feedback** via Issues or Discussions
 - 🔗 **Share on LinkedIn** to help others in the QA community
@@ -888,7 +803,7 @@ If you find this framework architecture helpful:
 
 This project documentation is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-**Note**: Tosca is a proprietary tool by Tricentis. This repository contains documentation and supporting scripts only, not the Tosca software itself.
+> **Note**: Tosca is a proprietary tool by Tricentis. This repository contains documentation and supporting scripts only, not the Tosca software itself.
 
 ---
 
@@ -900,25 +815,30 @@ This project documentation is licensed under the **MIT License** - see the [LICE
 
 ---
 
+<div align="center">
+
 ## 📊 Repository Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/tosca-framework?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/tosca-framework?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/yourusername/tosca-framework?style=social)
+![GitHub stars](https://img.shields.io/github/stars/PythonProgrammer-Ash/tosca-enterprise-framework?style=social)
+![GitHub forks](https://img.shields.io/github/forks/PythonProgrammer-Ash/tosca-enterprise-framework?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/PythonProgrammer-Ash/tosca-enterprise-framework?style=social)
+![GitHub last commit](https://img.shields.io/github/last-commit/PythonProgrammer-Ash/tosca-enterprise-framework)
 
-**Last Updated**: January 2026  
-**Framework Version**: 3.2.0  
-**Tosca Compatibility**: 16.0+
+**Last Updated:** January 2026  
+**Framework Version:** 3.2.0  
+**Tosca Compatibility:** 16.0+
 
 ---
 
-<div align="center">
-  
 ### 🎯 Built with Excellence | Engineered for Scale | Tested for Quality
 
-**If you're looking for a Test Automation Architect who thinks beyond scripts,**  
-**let's connect and build something amazing together.**
+**If you're looking for a Test Automation Architect who thinks beyond scripts,  
+let's connect and build something amazing together.**
 
-[⬆ Back to Top](#-tricentis-tosca-end-to-end-automation-framework)
+[⬆ Back to Top](#-enterprise-tosca-test-automation-framework)
+
+---
+
+<sub>Made with ❤️ by Ashish Nayak | Empowering the testing community through knowledge sharing</sub>
 
 </div>
