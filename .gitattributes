@@ -1,0 +1,20 @@
+# Tosca Framework Language Override
+*.md linguist-documentation
+*.py linguist-language=Python
+*.ps1 linguist-language=PowerShell
+*.yml linguist-language=YAML
+*.yaml linguist-language=YAML
+*.json linguist-language=JSON
+
+# Mark certain folders as documentation/vendor
+documentation/* linguist-documentation
+screenshots/* linguist-documentation
+execution-reports/* linguist-documentation
+sample-artifacts/* linguist-documentation
+
+# Override language detection
+* linguist-vendored=false
+*.py linguist-vendored=false
+
+# Set custom language label
+README.md linguist-detectable=false
